@@ -1,11 +1,24 @@
-"use client";
+'use client'
 
-import React from "react";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import Button from "@/components/ui/button"; // Adjust the import path as needed
-import { Player } from "@lottiefiles/react-lottie-player";
-import VideoCarousel from "@/components/video-carousel";
+import React from 'react'
+import { cn } from '@/lib/utils'
+import Image from 'next/legacy/image'
+import Button from '@/components/ui/button' // Adjust the import path as needed
+import dynamic from 'next/dynamic'
+// import { Player } from '@lottiefiles/react-lottie-player'
+// import VideoCarousel from '@/components/video-carousel'
+
+const VideoCarousel = dynamic(() => import('@/components/video-carousel'), {
+  ssr: false
+})
+
+// Dynamically import Lottie Player with SSR disabled
+const Player = dynamic(
+  () => import('@lottiefiles/react-lottie-player').then((mod) => mod.Player),
+  {
+    ssr: false // Disable SSR for this component
+  }
+)
 export default function InlineImageAndParaAbout({
   content,
   images,
@@ -25,19 +38,19 @@ export default function InlineImageAndParaAbout({
   philosophyDescriptionClassName,
   lottieAnimationUrl = null, // New prop for Lottie animation
   useVideoCarousel = false, // New prop to toggle video carousel
-  videos = [], // Pass the videos for the carousel
+  videos = [] // Pass the videos for the carousel
 }) {
   return (
     <section
       className={cn(
-        "flex flex-col justify-center items-center padding-container margin-container bg-white max-md:px-5 transition-transform duration-300 transform",
+        'flex flex-col justify-center items-center padding-container margin-container bg-white max-md:px-5 transition-transform duration-300 transform',
         containerClassName
       )}
     >
       <div className="w-full max-md:max-w-full">
         <div
           className={cn(
-            "flex flex-row-reverse max-lg:flex-col w-full gap-8 md:gap-14 items-center justify-center",
+            'flex flex-row-reverse max-lg:flex-col w-full gap-8 md:gap-14 items-center justify-center',
             className
           )}
         >
@@ -57,7 +70,7 @@ export default function InlineImageAndParaAbout({
             <div className="flex flex-col md:hidden">
               <h2
                 className={cn(
-                  "text-2xl font-bold text-left text-primary rotate-[2.4492937051703357e-16rad]",
+                  'text-2xl font-bold text-left text-primary rotate-[2.4492937051703357e-16rad]',
                   sectionTitleClassName
                 )}
               >
@@ -67,7 +80,7 @@ export default function InlineImageAndParaAbout({
                 <div className="content">
                   <h1
                     className={cn(
-                      "font-lexend self-stretch mr-6 text-2xl lg:text-5xl font-bold leading-none text-dark max-md:mr-2.5 max-md:max-w-full",
+                      'font-lexend self-stretch mr-6 text-2xl lg:text-5xl font-bold leading-none text-dark max-md:mr-2.5 max-md:max-w-full',
                       titleClassName
                     )}
                   >
@@ -75,7 +88,7 @@ export default function InlineImageAndParaAbout({
                   </h1>
                   <p
                     className={cn(
-                      "font-lexend mt-2 text-[0.6875rem] md:text-lg font-semibold leading-[12px] md:leading-9 text-left text-primary max-md:max-w-full",
+                      'font-lexend mt-2 text-[0.6875rem] md:text-lg font-semibold leading-[12px] md:leading-9 text-left text-primary max-md:max-w-full',
                       subtitleClassName
                     )}
                   >
@@ -83,7 +96,7 @@ export default function InlineImageAndParaAbout({
                   </p>
                   <p
                     className={cn(
-                      "self-stretch mt-5 text-sm md:text-lg !leading-[1.875rem] text-gray max-md:max-w-full font-lato",
+                      'self-stretch mt-5 text-sm md:text-lg !leading-[1.875rem] text-gray max-md:max-w-full font-lato',
                       descriptionClassName
                     )}
                   >
@@ -93,12 +106,18 @@ export default function InlineImageAndParaAbout({
               </div>
             </div>
 
-            {lottieAnimationUrl ? (
+            {lottieAnimationUrl && typeof window !== 'undefined' ? (
               // If there's a Lottie animation, render the Lottie Player
               <div className="flex items-center justify-center">
-                <Player autoplay loop src={lottieAnimationUrl} />
+                <Player
+                  autoplay
+                  loop
+                  src={lottieAnimationUrl}
+                />
               </div>
-            ) : useVideoCarousel && videos.length > 0 ? (
+            ) : useVideoCarousel &&
+              videos.length > 0 &&
+              typeof window !== 'undefined' ? (
               // If useVideoCarousel is true, render the video carousel
               <VideoCarousel
                 videos={videos}
@@ -112,20 +131,20 @@ export default function InlineImageAndParaAbout({
                 alt="Fitness Team"
                 width={imageWidth}
                 height={imageHeight}
-                className={cn("z-10", imageClassName)}
+                className={cn('z-10', imageClassName)}
               />
             )}
           </div>
           <div
             className={cn(
-              "flex flex-col w-full lg:w-1/2  max-md:w-full",
+              'flex flex-col w-full lg:w-1/2  max-md:w-full',
               textContainerClassName
             )}
           >
             <div className="flex flex-col items-start self-stretch my-auto mt-2 md:mt-0 max-md:max-w-full">
               <h2
                 className={cn(
-                  "hidden md:flex text-2xl font-bold text-left text-primary rotate-[2.4492937051703357e-16rad]",
+                  'hidden md:flex text-2xl font-bold text-left text-primary rotate-[2.4492937051703357e-16rad]',
                   sectionTitleClassName
                 )}
               >
@@ -135,7 +154,7 @@ export default function InlineImageAndParaAbout({
                 <div className="content hidden md:flex flex-col">
                   <h1
                     className={cn(
-                      "font-lexend self-stretch mr-6 text-2xl lg:text-5xl font-bold leading-none text-dark max-md:mr-2.5 max-md:max-w-full",
+                      'font-lexend self-stretch mr-6 text-2xl lg:text-5xl font-bold leading-none text-dark max-md:mr-2.5 max-md:max-w-full',
                       titleClassName
                     )}
                   >
@@ -143,7 +162,7 @@ export default function InlineImageAndParaAbout({
                   </h1>
                   <p
                     className={cn(
-                      "font-lexend mt-2 text-[0.6875rem] md:text-lg font-semibold leading-[12px] md:leading-9 text-left text-primary max-md:max-w-full",
+                      'font-lexend mt-2 text-[0.6875rem] md:text-lg font-semibold leading-[12px] md:leading-9 text-left text-primary max-md:max-w-full',
                       subtitleClassName
                     )}
                   >
@@ -151,7 +170,7 @@ export default function InlineImageAndParaAbout({
                   </p>
                   <p
                     className={cn(
-                      "self-stretch mt-5 text-sm md:text-lg !leading-[1.875rem] text-gray max-md:max-w-full font-lato",
+                      'self-stretch mt-5 text-sm md:text-lg !leading-[1.875rem] text-gray max-md:max-w-full font-lato',
                       descriptionClassName
                     )}
                   >
@@ -163,7 +182,7 @@ export default function InlineImageAndParaAbout({
                   <div className="content">
                     <h1
                       className={cn(
-                        "font-lato self-stretch mr-6 text-2xl lg:text-5xl font-bold leading-tight text-dark max-md:mr-2.5 max-md:max-w-full",
+                        'font-lato self-stretch mr-6 text-2xl lg:text-5xl font-bold leading-tight text-dark max-md:mr-2.5 max-md:max-w-full',
                         philosophyTitleClassName
                       )}
                     >
@@ -171,7 +190,7 @@ export default function InlineImageAndParaAbout({
                     </h1>
                     <p
                       className={cn(
-                        "self-stretch mt-3 text-sm md:text-lg sm:text-lg leading-relaxed md:!leading-[1.875rem] text-gray max-md:max-w-full font-lato",
+                        'self-stretch mt-3 text-sm md:text-lg sm:text-lg leading-relaxed md:!leading-[1.875rem] text-gray max-md:max-w-full font-lato',
                         philosophyDescriptionClassName
                       )}
                     >
@@ -196,5 +215,5 @@ export default function InlineImageAndParaAbout({
         </div>
       </div>
     </section>
-  );
+  )
 }
