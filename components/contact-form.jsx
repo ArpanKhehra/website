@@ -14,16 +14,13 @@ const ContactForm = () => {
   const handleSubmit = async (values) => {
     try {
       setIsSubmitting(true)
-      const response = await fetch(
-        'https://srv622968.hstgr.cloud/submit-form',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(values)
-        }
-      )
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      })
 
       if (response.ok) {
         const data = await response.json() // parse response data
