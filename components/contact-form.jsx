@@ -1,86 +1,82 @@
-"use client";
-import React, { useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import {
-  Twitter,
-  Instagram,
-  Facebook,
-  Phone,
-  Mail,
-  MapPin,
-} from "lucide-react";
-import { Alert, Snackbar } from "@mui/material";
+'use client'
+import React, { useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { Twitter, Instagram, Facebook, Phone, Mail, MapPin } from 'lucide-react'
+import { Alert, Snackbar } from '@mui/material'
 
 const ContactForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
   // Form submission handler
   const handleSubmit = async (values) => {
     try {
-      setIsSubmitting(true);
-      const response = await fetch("http://srv622968.hstgr.cloud/submit-form", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      setIsSubmitting(true)
+      const response = await fetch(
+        'https://srv622968.hstgr.cloud/submit-form',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(values)
+        }
+      )
 
       if (response.ok) {
-        const data = await response.json(); // parse response data
-        setSnackbarMessage(data.message + "! We will contact you soon!");
-        setSnackbarSeverity("success");
-        formik.resetForm();
+        const data = await response.json() // parse response data
+        setSnackbarMessage(data.message + '! We will contact you soon!')
+        setSnackbarSeverity('success')
+        formik.resetForm()
       } else {
-        setSnackbarMessage("Error submitting form: " + error.message);
-        setSnackbarSeverity("error");
+        setSnackbarMessage('Error submitting form: ' + error.message)
+        setSnackbarSeverity('error')
       }
     } catch (error) {
-      setSnackbarMessage("Error submitting form: " + error.message);
-      setSnackbarSeverity("error");
+      setSnackbarMessage('Error submitting form: ' + error.message)
+      setSnackbarSeverity('error')
     } finally {
-      setIsSubmitting(false);
-      setSnackbarOpen(true);
+      setIsSubmitting(false)
+      setSnackbarOpen(true)
     }
-  };
+  }
   const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
+    setSnackbarOpen(false)
+  }
 
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      gender: "",
-      age: "",
-      city: "",
-      mobileNumber: "",
-      fitnessGoal: "",
-      medicalIssue: "",
-      injury: "",
+      fullName: '',
+      gender: '',
+      age: '',
+      city: '',
+      mobileNumber: '',
+      fitnessGoal: '',
+      medicalIssue: '',
+      injury: ''
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().required("Full Name is required"),
-      gender: Yup.string().required("Gender is required"),
-      age: Yup.number().required("Age is required").positive().integer(),
-      city: Yup.string().required("City is required"),
-      mobileNumber: Yup.string().required("Mobile Number is required"),
-      fitnessGoal: Yup.string().required("Fitness Goal is required"),
+      fullName: Yup.string().required('Full Name is required'),
+      gender: Yup.string().required('Gender is required'),
+      age: Yup.number().required('Age is required').positive().integer(),
+      city: Yup.string().required('City is required'),
+      mobileNumber: Yup.string().required('Mobile Number is required'),
+      fitnessGoal: Yup.string().required('Fitness Goal is required'),
       medicalIssue: Yup.string(),
-      injury: Yup.string(),
+      injury: Yup.string()
     }),
     onSubmit: (values) => {
-      console.log(values);
-      handleSubmit(values);
-    },
-  });
+      console.log(values)
+      handleSubmit(values)
+    }
+  })
 
   const inputClass =
-    "mt-1 block w-full border-b-2 border-[#8D8D8D] focus:border-primary px-0 py-1 text-gray-900 placeholder-transparent focus:outline-none focus:ring-0 focus:border-primary-dark";
+    'mt-1 block w-full border-b-2 border-[#8D8D8D] focus:border-primary px-0 py-1 text-gray-900 placeholder-transparent focus:outline-none focus:ring-0 focus:border-primary-dark'
   const labelClass =
-    "absolute left-0 -top-3.5 text-primary text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-primary peer-focus:text-sm";
+    'absolute left-0 -top-3.5 text-primary text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-primary peer-focus:text-sm'
 
   return (
     <section className="flex flex-col relative padding-container">
@@ -143,17 +139,23 @@ const ContactForm = () => {
         </div>
 
         <div className="lg:w-3/5 p-8">
-          <form onSubmit={formik.handleSubmit} className="space-y-6">
+          <form
+            onSubmit={formik.handleSubmit}
+            className="space-y-6"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div className="relative">
                 <input
                   type="text"
                   id="fullName"
                   placeholder="Full Name"
-                  {...formik.getFieldProps("fullName")}
+                  {...formik.getFieldProps('fullName')}
                   className={inputClass}
                 />
-                <label htmlFor="fullName" className={labelClass}>
+                <label
+                  htmlFor="fullName"
+                  className={labelClass}
+                >
                   Full Name
                 </label>
                 {formik.touched.fullName && formik.errors.fullName ? (
@@ -166,7 +168,7 @@ const ContactForm = () => {
                 <select
                   id="gender"
                   placeholder="Select Gender"
-                  {...formik.getFieldProps("gender")}
+                  {...formik.getFieldProps('gender')}
                   className={inputClass}
                 >
                   <option value="">Select Gender</option>
@@ -174,7 +176,10 @@ const ContactForm = () => {
                   <option value="female">Female</option>
                   <option value="other">Other</option>
                 </select>
-                <label htmlFor="gender" className={labelClass}>
+                <label
+                  htmlFor="gender"
+                  className={labelClass}
+                >
                   Gender
                 </label>
                 {formik.touched.gender && formik.errors.gender ? (
@@ -191,10 +196,13 @@ const ContactForm = () => {
                   type="number"
                   id="age"
                   placeholder="Age"
-                  {...formik.getFieldProps("age")}
+                  {...formik.getFieldProps('age')}
                   className={inputClass}
                 />
-                <label htmlFor="age" className={labelClass}>
+                <label
+                  htmlFor="age"
+                  className={labelClass}
+                >
                   Age
                 </label>
                 {formik.touched.age && formik.errors.age ? (
@@ -208,10 +216,13 @@ const ContactForm = () => {
                   type="text"
                   id="city"
                   placeholder="City"
-                  {...formik.getFieldProps("city")}
+                  {...formik.getFieldProps('city')}
                   className={inputClass}
                 />
-                <label htmlFor="city" className={labelClass}>
+                <label
+                  htmlFor="city"
+                  className={labelClass}
+                >
                   City
                 </label>
                 {formik.touched.city && formik.errors.city ? (
@@ -228,10 +239,13 @@ const ContactForm = () => {
                   type="tel"
                   id="mobileNumber"
                   placeholder="Mobile Number"
-                  {...formik.getFieldProps("mobileNumber")}
+                  {...formik.getFieldProps('mobileNumber')}
                   className={inputClass}
                 />
-                <label htmlFor="mobileNumber" className={labelClass}>
+                <label
+                  htmlFor="mobileNumber"
+                  className={labelClass}
+                >
                   Mobile Number
                 </label>
                 {formik.touched.mobileNumber && formik.errors.mobileNumber ? (
@@ -245,10 +259,13 @@ const ContactForm = () => {
                   type="text"
                   id="fitnessGoal"
                   placeholder="Fitness Goal"
-                  {...formik.getFieldProps("fitnessGoal")}
+                  {...formik.getFieldProps('fitnessGoal')}
                   className={inputClass}
                 />
-                <label htmlFor="fitnessGoal" className={labelClass}>
+                <label
+                  htmlFor="fitnessGoal"
+                  className={labelClass}
+                >
                   Fitness Goal
                 </label>
                 {formik.touched.fitnessGoal && formik.errors.fitnessGoal ? (
@@ -265,10 +282,13 @@ const ContactForm = () => {
                   type="text"
                   id="medicalIssue"
                   placeholder="Medical Issue"
-                  {...formik.getFieldProps("medicalIssue")}
+                  {...formik.getFieldProps('medicalIssue')}
                   className={inputClass}
                 />
-                <label htmlFor="medicalIssue" className={labelClass}>
+                <label
+                  htmlFor="medicalIssue"
+                  className={labelClass}
+                >
                   Medical Issue
                 </label>
               </div>
@@ -277,10 +297,13 @@ const ContactForm = () => {
                   type="text"
                   id="injury"
                   placeholder="Injury"
-                  {...formik.getFieldProps("injury")}
+                  {...formik.getFieldProps('injury')}
                   className={inputClass}
                 />
-                <label htmlFor="injury" className={labelClass}>
+                <label
+                  htmlFor="injury"
+                  className={labelClass}
+                >
                   Injury
                 </label>
               </div>
@@ -291,7 +314,7 @@ const ContactForm = () => {
                 type="submit"
                 className="w-full ml-auto max-w-max bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
               >
-                {isSubmitting ? "Submitting..." : "Send Message"}
+                {isSubmitting ? 'Submitting...' : 'Send Message'}
               </button>
             </div>
           </form>
@@ -299,12 +322,12 @@ const ContactForm = () => {
             open={snackbarOpen}
             autoHideDuration={6000}
             onClose={handleCloseSnackbar}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           >
             <Alert
               onClose={handleCloseSnackbar}
               severity={snackbarSeverity}
-              sx={{ width: "100%" }}
+              sx={{ width: '100%' }}
             >
               {snackbarMessage}
             </Alert>
@@ -312,7 +335,7 @@ const ContactForm = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm
