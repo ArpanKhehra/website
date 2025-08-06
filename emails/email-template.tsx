@@ -3,12 +3,11 @@ import {
   Html,
   Body,
   Container,
-  Text,
   Heading,
   Section,
+  Text,
   Img
 } from '@react-email/components'
-
 interface EmailTemplateProps {
   fullName: string
   gender: string
@@ -18,6 +17,44 @@ interface EmailTemplateProps {
   fitnessGoal: string
   medicalIssue: string
   injury: string
+}
+
+interface BodyStyle extends React.CSSProperties {
+  fontFamily: string
+  backgroundColor: string
+  padding: string
+  textAlign: 'left' | 'right' | 'center' | 'justify' | undefined
+  width: string
+}
+
+interface ContainerStyle extends React.CSSProperties {
+  backgroundColor: string
+  padding: string
+  borderRadius: string
+  boxShadow: string
+  maxWidth: string
+  margin: string
+  textAlign: 'left' | 'right' | 'center' | 'justify' | undefined
+}
+
+interface HeadingStyle extends React.CSSProperties {
+  fontSize: string
+  color: string
+  marginBottom: string
+  fontWeight: string | number
+}
+
+interface TextStyle extends React.CSSProperties {
+  fontSize: string
+  color: string
+  lineHeight: string
+  marginBottom: string
+  textAlign: 'left' | 'right' | 'center' | 'justify' | undefined
+}
+
+interface LabelStyle extends React.CSSProperties {
+  fontWeight: string | number
+  color: string
 }
 
 export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
@@ -30,7 +67,7 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   medicalIssue,
   injury
 }) => {
-  const bodyStyle = {
+  const bodyStyle: BodyStyle = {
     fontFamily: "'Arial', 'Helvetica', sans-serif",
     backgroundColor: '#c9c9c9',
     padding: '80px',
@@ -38,7 +75,7 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
     width: '100%'
   }
 
-  const containerStyle = {
+  const containerStyle: ContainerStyle = {
     backgroundColor: '#ffffff',
     padding: '20px',
     borderRadius: '8px',
@@ -48,14 +85,14 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
     textAlign: 'center'
   }
 
-  const headingStyle = {
+  const headingStyle: HeadingStyle = {
     fontSize: '24px',
     color: '#333333',
     marginBottom: '20px',
     fontWeight: 'bold'
   }
 
-  const textStyle = {
+  const textStyle: TextStyle = {
     fontSize: '16px',
     color: '#555555',
     lineHeight: '24px',
@@ -63,7 +100,7 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
     textAlign: 'center'
   }
 
-  const labelStyle = {
+  const labelStyle: LabelStyle = {
     fontWeight: 'bold',
     color: '#000000'
   }
