@@ -1,80 +1,80 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import Button from "./ui/button";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
+import React, { useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import Button from './ui/button'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 
 const ConsultationBookingSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
-  phone: Yup.string().required("Phone number is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-});
+  name: Yup.string().required('Name is required'),
+  phone: Yup.string().required('Phone number is required'),
+  email: Yup.string().email('Invalid email').required('Email is required')
+})
 
 const ConsultationBookingForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
   const handleSubmit = async (values) => {
     try {
-      setIsSubmitting(true);
+      setIsSubmitting(true)
 
-      const response = await fetch(
-        "http://srv622968.hstgr.cloud/consult-form",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        }
-      );
+      const response = await fetch('/api/book-consultation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      })
 
       if (response.ok) {
-        const data = await response.json(); // parse response data
-        setSnackbarMessage(data.message + "! We will contact you soon!");
-        setSnackbarSeverity("success");
-        formik.resetForm();
+        const data = await response.json() // parse response data
+        setSnackbarMessage('Form Submitted! We will contact you soon!')
+        setSnackbarSeverity('success')
+        formik.resetForm()
       } else {
-        setSnackbarMessage("Failed to submit form");
-        setSnackbarSeverity("error");
+        setSnackbarMessage('Failed to submit form')
+        setSnackbarSeverity('error')
       }
     } catch (error) {
-      setSnackbarMessage("Error submitting form: " + error.message);
-      setSnackbarSeverity("error");
+      setSnackbarMessage('Error submitting form: ' + error.message)
+      setSnackbarSeverity('error')
     } finally {
-      setIsSubmitting(false);
-      setSnackbarOpen(true);
+      setIsSubmitting(false)
+      setSnackbarOpen(true)
     }
-  };
+  }
 
   const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
+    setSnackbarOpen(false)
+  }
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      phone: "",
-      email: "",
+      name: '',
+      phone: '',
+      email: ''
     },
     validationSchema: ConsultationBookingSchema,
     onSubmit: (values) => {
-      console.log(values);
-      handleSubmit(values);
-    },
-  });
+      console.log(values)
+      handleSubmit(values)
+    }
+  })
 
   return (
     <div className="bg-primary p-6 rounded-xl shadow-md">
       <h2 className="text-2xl font-bold text-white mb-4 font-lato">
         Book Your Consultation
       </h2>
-      <form onSubmit={formik.handleSubmit} className="space-y-4">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="space-y-4"
+      >
         <div>
           <label
             htmlFor="name"
@@ -147,26 +147,31 @@ const ConsultationBookingForm = () => {
           ) : null}
         </div>
 
-        <Button type="submit" variant="secondary" size="lg" className="w-full">
-          {isSubmitting ? "Submitting..." : "Join the AKF community →"}
+        <Button
+          type="submit"
+          variant="secondary"
+          size="lg"
+          className="w-full"
+        >
+          {isSubmitting ? 'Submitting...' : 'Join the AKF community →'}
         </Button>
       </form>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert
           onClose={handleCloseSnackbar}
           severity={snackbarSeverity}
-          sx={{ width: "100%" }}
+          sx={{ width: '100%' }}
         >
           {snackbarMessage}
         </Alert>
       </Snackbar>
     </div>
-  );
-};
+  )
+}
 
-export default ConsultationBookingForm;
+export default ConsultationBookingForm
