@@ -1,32 +1,30 @@
+import { EmailTemplate } from '@/emails/email-template'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { EmailTemplate } from '@/components/emails/EmailTemplate'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: Request) {
   try {
     const {
-      fullName,
-      email,
       age,
-      gender,
       city,
-      mobileNumber,
       fitnessGoal,
+      fullName,
+      gender,
+      injury,
       medicalIssue,
-      injury
+      mobileNumber
     } = await request.json()
 
     if (
-      !fullName ||
-      !email ||
       !age ||
       !city ||
-      !mobileNumber ||
       !fitnessGoal ||
-      !medicalIssue ||
-      !injury
+      !fullName ||
+      !injury ||
+      !mobileNumber ||
+      !medicalIssue
     ) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -36,12 +34,11 @@ export async function POST(request: Request) {
 
     const data = await resend.emails.send({
       from: 'Contact Form <hello@arpankhehrafitness.com>',
-      // to: ['Arpankhehrafitness4@gmail.com'],
-      to: ['surpawan@gmail.com'],
+      to: ['Arpankhehrafitness4@gmail.com'],
+      // to: ['delivered@resend.dev'], // Dev email
       subject: 'Form submission',
       react: EmailTemplate({
         fullName,
-        email,
         age,
         gender,
         city,

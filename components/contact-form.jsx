@@ -24,7 +24,7 @@ const ContactForm = () => {
 
       if (response.ok) {
         const data = await response.json() // parse response data
-        setSnackbarMessage(data.message + '! We will contact you soon!')
+        setSnackbarMessage('Form Submitted! We will contact you soon!')
         setSnackbarSeverity('success')
         formik.resetForm()
       } else {
@@ -45,14 +45,14 @@ const ContactForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullName: '',
-      gender: '',
-      age: '',
-      city: '',
-      mobileNumber: '',
-      fitnessGoal: '',
-      medicalIssue: '',
-      injury: ''
+      fullName: 'John Doe',
+      gender: 'male',
+      age: '32',
+      city: 'Mohali',
+      mobileNumber: '1234567890',
+      fitnessGoal: 'None',
+      medicalIssue: 'None',
+      injury: 'None'
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required('Full Name is required'),
