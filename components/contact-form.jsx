@@ -45,14 +45,14 @@ const ContactForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullName: 'John Doe',
-      gender: 'male',
-      age: '32',
-      city: 'Mohali',
-      mobileNumber: '1234567890',
-      fitnessGoal: 'None',
-      medicalIssue: 'None',
-      injury: 'None'
+      fullName: '',
+      gender: '',
+      age: '',
+      city: '',
+      mobileNumber: '',
+      fitnessGoal: '',
+      medicalIssue: '',
+      injury: ''
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required('Full Name is required'),
