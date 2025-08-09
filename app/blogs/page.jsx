@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import FeaturedBlogPost from "@/components/featured-blog-post";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import FeaturedBlogPost from '@/components/featured-blog-post'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const BlogPost = ({ post }) => (
   <Link
-    href={`/blogs/${post.link}`}
+    href={post.link}
     target="_blank"
     rel="noopener noreferrer"
     className="flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 "
@@ -32,40 +32,46 @@ const BlogPost = ({ post }) => (
       </p>
     </div>
   </Link>
-);
+)
 
 const BlogCarousel = ({ blogPosts }) => {
-  const [activePage, setActivePage] = useState(0);
-  const postsPerPage = 9;
-  const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+  const [activePage, setActivePage] = useState(0)
+  const postsPerPage = 9
+  const totalPages = Math.ceil(blogPosts.length / postsPerPage)
 
   const handlePageChange = (pageIndex) => {
-    setActivePage(Math.max(0, Math.min(pageIndex, totalPages - 1)));
-  };
+    setActivePage(Math.max(0, Math.min(pageIndex, totalPages - 1)))
+  }
 
   const handlePrev = () => {
-    handlePageChange(activePage - 1);
-  };
+    handlePageChange(activePage - 1)
+  }
 
   const handleNext = () => {
-    handlePageChange(activePage + 1);
-  };
+    handlePageChange(activePage + 1)
+  }
 
   return (
     <div className="relative overflow-hidden max-w-[1440px] mx-auto">
       <div
         className="flex transition-transform duration-500 ease-in-out"
         style={{
-          transform: `translateX(-${activePage * 100}%)`,
+          transform: `translateX(-${activePage * 100}%)`
         }}
       >
         {[...Array(totalPages)].map((_, pageIndex) => (
-          <div key={pageIndex} className="flex-shrink-0 w-full">
+          <div
+            key={pageIndex}
+            className="flex-shrink-0 w-full"
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
               {blogPosts
                 .slice(pageIndex * postsPerPage, (pageIndex + 1) * postsPerPage)
                 .map((post) => (
-                  <BlogPost key={post.id} post={post} />
+                  <BlogPost
+                    key={post.id}
+                    post={post}
+                  />
                 ))}
             </div>
           </div>
@@ -85,8 +91,8 @@ const BlogCarousel = ({ blogPosts }) => {
             onClick={() => handlePageChange(index)}
             className={`border-primary border rounded-full w-10 h-10 flex items-center justify-center text-sm font-medium ${
               activePage === index
-                ? "bg-primary text-white"
-                : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                ? 'bg-primary text-white'
+                : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
             }`}
           >
             {index + 1}
@@ -101,22 +107,22 @@ const BlogCarousel = ({ blogPosts }) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const BlogPage = () => {
   const aboutUsContent = {
     header: {
-      title: "Blog Posts",
+      title: 'Blog Posts',
       subtitle:
-        "Ready to transform your lives? Choose the online nutrition coaching that's right for you.",
+        "Ready to transform your lives? Choose the online nutrition coaching that's right for you."
     },
     images: {
-      headerDecoration: "/ornament-dots.svg",
-      mainImage: "/about-intro.svg",
-      decorationExplosive: "/ornament-dots-explosive.svg",
-    },
-  };
+      headerDecoration: '/ornament-dots.svg',
+      mainImage: '/about-intro.svg',
+      decorationExplosive: '/ornament-dots-explosive.svg'
+    }
+  }
   // TODO: Important keep this comments
   // const blogPosts = Array(36).fill({
   //   id: 1,
@@ -133,37 +139,37 @@ const BlogPage = () => {
     {
       id: 1,
       title:
-        "Unlock the Secrets to Effective Weight Loss: Science-Backed Strategies",
+        'Unlock the Secrets to Effective Weight Loss: Science-Backed Strategies',
       description:
-        "Discover science-backed weight loss strategies like drinking water before meals, HIIT workouts, and intermittent fasting. Learn how melatonin, dairy, and healthy fats can aid in fat loss.",
-      author: "Arpan Khehra",
-      date: "09 October, 2024",
-      image: "/blog-01-ways-to-lost-weight.webp",
-      link: "/effective-weight-loss-strategy",
+        'Discover science-backed weight loss strategies like drinking water before meals, HIIT workouts, and intermittent fasting. Learn how melatonin, dairy, and healthy fats can aid in fat loss.',
+      author: 'Arpan Khehra',
+      date: '09 October, 2024',
+      image: '/blog-01-ways-to-lost-weight.webp',
+      link: '/blogs/effective-weight-loss-strategy'
     },
     {
       id: 2,
-      title: "5-easy-steps-for-healthy-lifestyle",
+      title: '5-easy-steps-for-healthy-lifestyle',
       description:
-        "Transform your well-being with five simple steps: improve mobility, reduce stress, and boost gut health. Incorporate easy habits like hanging, squatting, and enjoying fermented foods for lasting results.",
-      author: "Arpan Khehra",
-      date: "09 October, 2024",
-      image: "/blog-02-healthy-lifestyle-tips.webp",
-      link: "/5-easy-steps-for-healthy-lifestyle",
-    },
-  ];
+        'Transform your well-being with five simple steps: improve mobility, reduce stress, and boost gut health. Incorporate easy habits like hanging, squatting, and enjoying fermented foods for lasting results.',
+      author: 'Arpan Khehra',
+      date: '09 October, 2024',
+      image: '/blog-02-healthy-lifestyle-tips.webp',
+      link: '/blogs/5-easy-steps-for-healthy-lifestyle'
+    }
+  ]
 
   const featuredPost = {
-    date: "09 October, 2024",
-    title: "5-easy-steps-for-healthy-lifestyle",
+    date: '09 October, 2024',
+    title: '5-easy-steps-for-healthy-lifestyle',
     description:
-      "Transform your well-being with five simple steps: improve mobility, reduce stress, and boost gut health. Incorporate easy habits like hanging, squatting, and enjoying fermented foods for lasting results.",
-    image: "/blog-02-healthy-lifestyle-tips.webp",
-    link: "/5-easy-steps-for-healthy-lifestyle",
-    author: "Arpan Khehra",
-    authorImage: "/avatar-arpan.svg",
-    readTime: "4 min",
-  };
+      'Transform your well-being with five simple steps: improve mobility, reduce stress, and boost gut health. Incorporate easy habits like hanging, squatting, and enjoying fermented foods for lasting results.',
+    image: '/blog-02-healthy-lifestyle-tips.webp',
+    link: '/blogs/5-easy-steps-for-healthy-lifestyle',
+    author: 'Arpan Khehra',
+    authorImage: '/avatar-arpan.svg',
+    readTime: '4 min'
+  }
 
   return (
     <main className="relative overflow-hidden">
@@ -210,7 +216,7 @@ const BlogPage = () => {
         </div>
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default BlogPage;
+export default BlogPage

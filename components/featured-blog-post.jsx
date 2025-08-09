@@ -1,12 +1,15 @@
-"use client";
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Calendar } from "lucide-react";
+'use client'
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowRight, Calendar } from 'lucide-react'
 
 const FeaturedBlogPost = ({ post }) => {
   return (
-    <Link href={post.link} className="no-underline">
+    <Link
+      href={post.link}
+      className="no-underline"
+    >
       <div className="bg-[var(--Gray-00)] rounded-[32px] shadow-lg overflow-hidden transition-transform duration-300 transform hover:scale-105 hover:shadow-[0px_8px_40px_rgba(0,0,0,0.15)] cursor-pointer">
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2">
@@ -35,7 +38,11 @@ const FeaturedBlogPost = ({ post }) => {
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-start gap-4">
               <div className="bg-primary text-white font-lato text-base font-semibold py-3 px-6 rounded-md inline-flex items-center transition-all hover:bg-primary-dark justify-center text-lexend">
-                Read More <ArrowRight size={20} className="ml-2" />
+                Read More{' '}
+                <ArrowRight
+                  size={20}
+                  className="ml-2"
+                />
               </div>
 
               <div className="flex items-center border-none md:border-l pl-0 md:pl-4 border-r-0 border-[#CDD2D8] border-t-0 border-b-0">
@@ -60,7 +67,7 @@ const FeaturedBlogPost = ({ post }) => {
         </div>
       </div>
     </Link>
-  );
-};
+  )
+}
 
-export default FeaturedBlogPost;
+export default FeaturedBlogPost
