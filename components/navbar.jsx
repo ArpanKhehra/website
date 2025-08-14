@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { ChevronDown, X, ChevronRight, ChevronLeft, Menu } from "lucide-react";
-import { usePathname } from "next/navigation";
+import React, { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/lib/utils'
+import { ChevronDown, X, ChevronRight, ChevronLeft, Menu } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,40 +14,43 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+  navigationMenuTriggerStyle
+} from '@/components/ui/navigation-menu'
 
 const transition = {
-  type: "spring",
+  type: 'spring',
   mass: 0.5,
   damping: 11.5,
   stiffness: 100,
   restDelta: 0.001,
-  restSpeed: 0.001,
-};
+  restSpeed: 0.001
+}
 
 const MenuItem = ({ setActive, active, item, children }) => {
-  const ref = useRef(null);
+  const ref = useRef(null)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
-        setActive(null);
+        setActive(null)
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setActive]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [setActive])
 
   const handleClick = () => {
-    setActive(active === item ? null : item);
-  };
+    setActive(active === item ? null : item)
+  }
 
   return (
-    <div ref={ref} className="relative bg-white">
+    <div
+      ref={ref}
+      className="relative bg-white"
+    >
       <motion.div
         onClick={handleClick}
         transition={{ duration: 0.3 }}
@@ -71,7 +74,10 @@ const MenuItem = ({ setActive, active, item, children }) => {
                 layoutId="active"
                 className="bg-white rounded-2xl overflow-hidden border border-primary/[0.2] shadow-xl"
               >
-                <motion.div layout className="w-max h-full p-4 bg-white">
+                <motion.div
+                  layout
+                  className="w-max h-full p-4 bg-white"
+                >
                   {children}
                 </motion.div>
               </motion.div>
@@ -80,90 +86,94 @@ const MenuItem = ({ setActive, active, item, children }) => {
         )}
       </AnimatePresence>
     </div>
-  );
-};
+  )
+}
 
 const MobileNavLink = ({ href, children, onClick, hasSubmenu = false }) => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
+  const pathname = usePathname()
+  const isActive = pathname === href
 
   return (
     <Link
       href={href}
       className={cn(
-        "flex items-center justify-between py-3 px-4",
-        isActive ? "text-primary font-semibold" : "text-gray-700"
+        'flex items-center justify-between py-3 px-4',
+        isActive ? 'text-primary font-semibold' : 'text-gray-700'
       )}
       onClick={onClick}
     >
       <span>{children}</span>
       {hasSubmenu && <ChevronRight size={20} />}
     </Link>
-  );
-};
+  )
+}
 
 const DesktopNavbar = () => {
-  const pathname = usePathname();
-  const [isAtTop, setIsAtTop] = useState(true); // To track if the user is at the top
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true); // To track if the navbar is visible
-  const [isScrolling, setIsScrolling] = useState(false); // To track scrolling activity
-  let scrollTimer = null;
+  const pathname = usePathname()
+  const [isAtTop, setIsAtTop] = useState(true) // To track if the user is at the top
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true) // To track if the navbar is visible
+  const [isScrolling, setIsScrolling] = useState(false) // To track scrolling activity
+  let scrollTimer = null
 
   useEffect(() => {
-    let lastScrollY = window.pageYOffset;
+    let lastScrollY = window.pageYOffset
 
     const handleScroll = () => {
-      const currentScrollY = window.pageYOffset;
+      const currentScrollY = window.pageYOffset
 
       // Check if we are at the top of the page
-      setIsAtTop(currentScrollY === 0);
+      setIsAtTop(currentScrollY === 0)
 
       // Clear any existing timeout to hide the navbar
-      if (scrollTimer) clearTimeout(scrollTimer);
+      if (scrollTimer) clearTimeout(scrollTimer)
 
       // Set scrolling state to true
-      setIsScrolling(true);
+      setIsScrolling(true)
 
       // Set a timer to hide the navbar after 2 seconds of no scrolling
       scrollTimer = setTimeout(() => {
-        setIsScrolling(false);
-      }, 1000);
+        setIsScrolling(false)
+      }, 1000)
 
-      lastScrollY = currentScrollY > 0 ? currentScrollY : 0;
-    };
+      lastScrollY = currentScrollY > 0 ? currentScrollY : 0
+    }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimer) clearTimeout(scrollTimer);
-    };
-  }, []);
+      window.removeEventListener('scroll', handleScroll)
+      if (scrollTimer) clearTimeout(scrollTimer)
+    }
+  }, [])
 
   // Hide the navbar after 2 seconds of no scrolling
   useEffect(() => {
     if (!isScrolling && !isAtTop) {
-      setIsNavbarVisible(false);
+      setIsNavbarVisible(false)
     } else {
-      setIsNavbarVisible(true);
+      setIsNavbarVisible(true)
     }
-  }, [isScrolling, isAtTop]);
+  }, [isScrolling, isAtTop])
 
   return (
     <nav
       className={`bg-white shadow-md z-100 hidden xl:flex fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
-        isAtTop ? "" : ""
-      } ${!isNavbarVisible ? "-translate-y-full" : ""}`} // Slide up when hidden
+        isAtTop ? '' : ''
+      } ${!isNavbarVisible ? '-translate-y-full' : ''}`} // Slide up when hidden
     >
       <div className="w-full !ml-0 !mr-0 flex items-center justify-between bg-white padding-container !py-5">
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
+              <Link
+                href="/"
+                legacyBehavior
+                passHref
+              >
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    pathname === "/" && "text-primary font-semibold"
+                    pathname === '/' && 'text-primary font-semibold'
                   )}
                 >
                   Home
@@ -171,11 +181,15 @@ const DesktopNavbar = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/about-us" legacyBehavior passHref>
+              <Link
+                href="/about-us"
+                legacyBehavior
+                passHref
+              >
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    pathname === "/about-us" && "text-primary font-semibold"
+                    pathname === '/about-us' && 'text-primary font-semibold'
                   )}
                 >
                   About AKF
@@ -183,11 +197,15 @@ const DesktopNavbar = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/services" legacyBehavior passHref>
+              <Link
+                href="/services"
+                legacyBehavior
+                passHref
+              >
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    pathname === "/services" && "text-primary font-semibold"
+                    pathname === '/services' && 'text-primary font-semibold'
                   )}
                 >
                   Services
@@ -195,11 +213,15 @@ const DesktopNavbar = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/plans" legacyBehavior passHref>
+              <Link
+                href="/plans"
+                legacyBehavior
+                passHref
+              >
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    pathname === "/plans" && "text-primary font-semibold"
+                    pathname === '/plans' && 'text-primary font-semibold'
                   )}
                 >
                   Our Plans
@@ -240,23 +262,32 @@ const DesktopNavbar = () => {
               className="object-cover"
             />
           )} */}
-          <Image
-            src="/akf-logo-new.png"
-            alt="Arpan Khehra Fitness Logo"
-            width={70} // Smaller logo when scrolling
-            height={100}
-            className="object-cover"
-          />
+          <Link
+            href="/"
+            className="block"
+          >
+            <Image
+              src="/akf-logo-new.png"
+              alt="Arpan Khehra Fitness Logo"
+              width={70} // Smaller logo when scrolling
+              height={100}
+              className="object-cover"
+            />
+          </Link>
         </motion.div>
 
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/recognitions" legacyBehavior passHref>
+              <Link
+                href="/recognitions"
+                legacyBehavior
+                passHref
+              >
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    pathname === "/recognitions" && "text-primary font-semibold"
+                    pathname === '/recognitions' && 'text-primary font-semibold'
                   )}
                 >
                   Recognitions
@@ -264,11 +295,15 @@ const DesktopNavbar = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/gallery" legacyBehavior passHref>
+              <Link
+                href="/gallery"
+                legacyBehavior
+                passHref
+              >
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    pathname === "/gallery" && "text-primary font-semibold"
+                    pathname === '/gallery' && 'text-primary font-semibold'
                   )}
                 >
                   Gallery
@@ -294,24 +329,37 @@ const DesktopNavbar = () => {
                       </a>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/calculators/bmi" title="BMI Calculator">
+                  <ListItem
+                    href="/calculators/bmi"
+                    title="BMI Calculator"
+                  >
                     Calculate your Body Mass Index
                   </ListItem>
-                  <ListItem href="/calculators/lbm" title="LBM Calculator">
+                  <ListItem
+                    href="/calculators/lbm"
+                    title="LBM Calculator"
+                  >
                     Calculate your Lean Body Mass
                   </ListItem>
-                  <ListItem href="/calculators/bmr" title="BMR Calculator">
+                  <ListItem
+                    href="/calculators/bmr"
+                    title="BMR Calculator"
+                  >
                     Calculate your Basal Metabolic Rate
                   </ListItem>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/contact-us" legacyBehavior passHref>
+              <Link
+                href="/contact-us"
+                legacyBehavior
+                passHref
+              >
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    pathname === "/contact-us" && "text-primary font-semibold"
+                    pathname === '/contact-us' && 'text-primary font-semibold'
                   )}
                 >
                   Contact us
@@ -322,8 +370,8 @@ const DesktopNavbar = () => {
         </NavigationMenu>
       </div>
     </nav>
-  );
-};
+  )
+}
 
 const ListItem = React.forwardRef(
   ({ className, title, children, ...props }, ref) => {
@@ -333,7 +381,7 @@ const ListItem = React.forwardRef(
           <a
             ref={ref}
             className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
               className
             )}
             {...props}
@@ -345,22 +393,22 @@ const ListItem = React.forwardRef(
           </a>
         </NavigationMenuLink>
       </li>
-    );
+    )
   }
-);
-ListItem.displayName = "ListItem";
+)
+ListItem.displayName = 'ListItem'
 
 const Navbar = () => {
-  const [active, setActive] = useState(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [currentSubmenu, setCurrentSubmenu] = useState(null);
-  const mobileMenuRef = useRef(null);
+  const [active, setActive] = useState(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [currentSubmenu, setCurrentSubmenu] = useState(null)
+  const mobileMenuRef = useRef(null)
 
   const handleLinkClick = () => {
-    setActive(null);
-    setIsMobileMenuOpen(false);
-    setCurrentSubmenu(null);
-  };
+    setActive(null)
+    setIsMobileMenuOpen(false)
+    setCurrentSubmenu(null)
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -368,30 +416,30 @@ const Navbar = () => {
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target)
       ) {
-        setIsMobileMenuOpen(false);
+        setIsMobileMenuOpen(false)
       }
-    };
+    }
 
     if (isMobileMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMobileMenuOpen]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isMobileMenuOpen])
 
   const sidebarVariants = {
     closed: {
-      x: "100%",
-      transition: { type: "spring", stiffness: 300, damping: 30 },
+      x: '100%',
+      transition: { type: 'spring', stiffness: 300, damping: 30 }
     },
-    open: { x: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
-  };
+    open: { x: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } }
+  }
 
   const overlayVariants = {
     closed: { opacity: 0, transition: { duration: 0.2 } },
-    open: { opacity: 1, transition: { duration: 0.2 } },
-  };
+    open: { opacity: 1, transition: { duration: 0.2 } }
+  }
 
   return (
     <>
@@ -452,48 +500,72 @@ const Navbar = () => {
                   </button>
                 </div>
                 <div className="py-2">
-                  <MobileNavLink href="/" onClick={handleLinkClick}>
+                  <MobileNavLink
+                    href="/"
+                    onClick={handleLinkClick}
+                  >
                     Home
                   </MobileNavLink>
-                  <MobileNavLink href="/about-us" onClick={handleLinkClick}>
+                  <MobileNavLink
+                    href="/about-us"
+                    onClick={handleLinkClick}
+                  >
                     About AKF
                   </MobileNavLink>
-                  <MobileNavLink href="/services" onClick={handleLinkClick}>
+                  <MobileNavLink
+                    href="/services"
+                    onClick={handleLinkClick}
+                  >
                     Services
                   </MobileNavLink>
-                  <MobileNavLink href="/plans" onClick={handleLinkClick}>
+                  <MobileNavLink
+                    href="/plans"
+                    onClick={handleLinkClick}
+                  >
                     Our Plans
                   </MobileNavLink>
-                  <MobileNavLink href="/recognitions" onClick={handleLinkClick}>
+                  <MobileNavLink
+                    href="/recognitions"
+                    onClick={handleLinkClick}
+                  >
                     Recognitions
                   </MobileNavLink>
-                  <MobileNavLink href="/gallery" onClick={handleLinkClick}>
+                  <MobileNavLink
+                    href="/gallery"
+                    onClick={handleLinkClick}
+                  >
                     Gallery
                   </MobileNavLink>
-                  <MobileNavLink href="/blogs" onClick={handleLinkClick}>
+                  <MobileNavLink
+                    href="/blogs"
+                    onClick={handleLinkClick}
+                  >
                     Blog
                   </MobileNavLink>
                   <MobileNavLink
                     href="#"
-                    onClick={() => setCurrentSubmenu("resources")}
+                    onClick={() => setCurrentSubmenu('resources')}
                     hasSubmenu
                   >
                     Resources
                   </MobileNavLink>
-                  <MobileNavLink href="/contact-us" onClick={handleLinkClick}>
+                  <MobileNavLink
+                    href="/contact-us"
+                    onClick={handleLinkClick}
+                  >
                     Contact us
                   </MobileNavLink>
                 </div>
                 <AnimatePresence>
-                  {currentSubmenu === "resources" && (
+                  {currentSubmenu === 'resources' && (
                     <motion.div
-                      initial={{ x: "100%" }}
+                      initial={{ x: '100%' }}
                       animate={{ x: 0 }}
-                      exit={{ x: "100%" }}
+                      exit={{ x: '100%' }}
                       transition={{
-                        type: "spring",
+                        type: 'spring',
                         stiffness: 300,
-                        damping: 30,
+                        damping: 30
                       }}
                       className="absolute inset-0 bg-white"
                     >
@@ -535,7 +607,7 @@ const Navbar = () => {
         </AnimatePresence>
       </nav>
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
